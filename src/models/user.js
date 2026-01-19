@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
@@ -37,9 +37,13 @@ const userSchema = new mongoose.Schema(
 
 userSchema.methods.getJWT = async function () {
   const user = this;
-  const token = await jwt.sign({ _id: user._id }, process.env.PRIVATEKEY, {
-    expiresIn: "1h",
-  });
+  const token = await jwt.sign(
+    { _id: user._id, role: user.role },
+    process.env.PRIVATEKEY,
+    {
+      expiresIn: "1h",
+    },
+  );
   return token;
 };
 
@@ -54,4 +58,5 @@ userSchema.methods.comparePassword = async function (userEnterPassword) {
 };
 
 const User = mongoose.model("User", userSchema);
-module.exports = User;
+
+export default User;

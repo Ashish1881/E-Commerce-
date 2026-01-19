@@ -1,16 +1,18 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config();
 
-const express = require("express");
-const connectDB = require("./config/database");
+import express from "express";
+import connectDB from "./config/database.js";
 
-const authRouter = require("./routers/auth");
+import userAuthRouter from "./routers/User/userAuthRouter.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
-app.use("/", authRouter);
+app.use("/API/V1/User", userAuthRouter);
 
 connectDB()
   .then(() => {

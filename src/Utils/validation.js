@@ -1,5 +1,6 @@
-const validator = require("validator");
-const bcrypt = require("bcrypt");
+import validator from "validator";
+// const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 const validateRegisterData = (req) => {
   const { firstName, lastName, email, password } = req.body;
@@ -13,6 +14,4 @@ const validateRegisterData = (req) => {
   }
 };
 
-module.exports = {
-  validateRegisterData,
-};
+export default validateRegisterData;
