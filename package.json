@@ -1,0 +1,18 @@
+{
+  "name": "e-commerce_tech-surya",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Ashish",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.4",
+    "validator": "^13.15.26"
+  }
+}
