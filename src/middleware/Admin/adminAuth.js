@@ -10,18 +10,16 @@ const adminAuthMiddleware = async (req, res, next) => {
 
     const decoded = await jwt.verify(token, process.env.PRIVATEKEY);
     const { role } = decoded;
-    if (role === "ADMIN") {
-      next();
-    } else {
+    if (role !== "ADMIN") {
       return res.status(403).json({
         success: false,
         message: "Access denied. Only admins are allowed to add products.",
       });
+    } else {
+      next();
     }
-
-    next();
   } catch (error) {
-    res.status(500).send("ERROR : " + error.message);
+    return res.status(500).send("ERROR : " + error.message);
   }
 };
 
