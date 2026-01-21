@@ -3,10 +3,16 @@ dotenv.config();
 
 import express from "express";
 import connectDB from "./config/database.js";
-
-import userAuthRouter from "./routers/User/userAuthRouter.js";
 import cookieParser from "cookie-parser";
+
+// User import
+import userAuthRouter from "./routers/User/userAuthRouter.js";
+import cardRouter from "./routers/User/cardRouter.js";
+
+// Admin import
 import productRouter from "./routers/Admin/ProductRouter.js";
+
+// Public import
 import publicProductRouter from "./routers/public/publicProductRouter.js";
 
 const app = express();
@@ -14,9 +20,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+//User Router
 app.use("/API/V1/User", userAuthRouter);
+app.use("/API/V1/Card", cardRouter);
+
+//Admin Router
 app.use("/API/V1/Admin", productRouter);
 
+//Public Router
 app.use("/API/V1/Public", publicProductRouter);
 
 connectDB()
