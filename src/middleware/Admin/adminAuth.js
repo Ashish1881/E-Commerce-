@@ -13,7 +13,7 @@ const adminAuthMiddleware = async (req, res, next) => {
     if (decoded.role !== "ADMIN") {
       return res.status(403).json({
         success: false,
-        message: "Access denied. Only admins are allowed to add products.",
+        message: "Access denied. Only admins are allowed...",
       });
     } else {
       req.user = decoded;
