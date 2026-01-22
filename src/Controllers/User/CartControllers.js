@@ -54,7 +54,7 @@ export const GetCart = async (req, res) => {
       select: "name price productImg",
     });
     if (!cart) {
-      return res.json({ message: "No item found" });
+      return res.status(404).json({ message: "Cart is empty" });
     }
     res.json({ cart: cart });
   } catch (error) {
