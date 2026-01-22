@@ -62,8 +62,46 @@ export const GetCart = async (req, res) => {
   }
 };
 
+export const RemoveItem = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const productId = req.params.productId;
+
+    const cart = await Cart.findOne({ userId: userId });
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart is not found" });
+    }
+
+    const itemIndex = cart.items.findIndex((p) => p.productId == productId);
+    if (itemIndex > -1) {
+      let productItem = cart.items[itemIndex];
+      if (productItem.quantity > 1) {
+        productItem.quantity -= 1;
+
+        await cart.save();
+        return res.json({
+          message: "Quantity decreased successfully",
+          cart: cart,
+        });
+      } else {
+        cart.items.splice(itemIndex, 1);
+        await cart.save();
+        return res.json({ message: "Item removed from cart", cart });
+      }
+    } else {
+      return res.status(404).json({ message: "Item not found in cart" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Server side error", error: error.message });
+  }
+};
+
 const cartControllers = {
   AddToCart,
   GetCart,
+  RemoveItem,
 };
 export default cartControllers;
