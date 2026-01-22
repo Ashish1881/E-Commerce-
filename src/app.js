@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 //User Router
 app.use("/API/V1/User", userAuthRouter);
-app.use("/API/V1/Card", cardRouter);
+app.use("/API/V1/Cart", cardRouter);
 
 //Admin Router
 app.use("/API/V1/Admin", productRouter);

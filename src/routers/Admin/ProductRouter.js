@@ -3,7 +3,7 @@ import productControllers, {
   AddProduct,
   UpdateProduct,
   DeleteProduct,
-} from "../../Controllers/Admin/productControllers.js";
+} from "../../Controllers/Admin/ProductControllers.js";
 import adminAuthMiddleware from "../../middleware/Admin/adminAuth.js";
 
 const productRouter = express.Router();

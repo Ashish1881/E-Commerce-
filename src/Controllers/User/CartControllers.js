@@ -2,9 +2,10 @@ import User from "../../models/user.js";
 import { Product } from "../../models/product.js";
 import Cart from "../../models/cart.js";
 
-const AddToCart = async (req, res) => {
+export const AddToCart = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    // const userId = req.params.userId;
+    const userId = req.user._id;
 
     const itemData = req.body.items ? req.body.items[0] : req.body;
     const { productId, quantity } = itemData;
@@ -45,4 +46,24 @@ const AddToCart = async (req, res) => {
   }
 };
 
-export default AddToCart;
+export const GetCart = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const cart = await Cart.findOne({ userId: userId }).populate({
+      path: "items.productId",
+      select: "name price productImg",
+    });
+    if (!cart) {
+      return res.json({ message: "No item found" });
+    }
+    res.json({ cart: cart });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const cartControllers = {
+  AddToCart,
+  GetCart,
+};
+export default cartControllers;

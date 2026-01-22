@@ -1,8 +1,13 @@
 import express from "express";
-import AddToCart from "../../Controllers/User/CartControllers.js";
+import cartControllers, {
+  AddToCart,
+  GetCart,
+} from "../../Controllers/User/CartControllers.js";
+import userAuthMiddleware from "../../middleware/User/userAuth.js";
 
 const cardRouter = express.Router();
 
-cardRouter.post("/items/:userId", AddToCart);
+cardRouter.post("/items/", userAuthMiddleware, AddToCart);
+cardRouter.get("/getCart", userAuthMiddleware, GetCart);
 
 export default cardRouter;
