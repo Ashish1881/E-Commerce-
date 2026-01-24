@@ -143,9 +143,63 @@ export const paymetStatus = async (req, res) => {
   }
 };
 
+export const getMyOrders = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const orders = await Order.find({ userId: userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate("items.productId", "name price productImg");
+
+    const totalOrders = await Order.countDocuments({ userId: userId });
+    const totalPages = Math.ceil(totalOrders / limit);
+
+    res.status(200).json({
+      success: true,
+      pagination: {
+        currentPage: page,
+        totalPages: totalPages,
+        totalOrders: totalOrders,
+        limit: limit,
+      },
+      data: orders,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getMyOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+
+    if (!orderId) {
+      return res.json({ message: "Please enter orderId" });
+    }
+
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.json({ message: "Not order found" });
+    }
+
+    res.json({
+      data: order,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 const order = {
   checkout,
   paymetStatus,
+  getMyOrders,
+  getMyOrder,
 };
 
 export default order;
