@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 // User import
 import userAuthRouter from "./routers/User/userAuthRouter.js";
 import cardRouter from "./routers/User/cardRouter.js";
+import orderRouter from "./routers/User/orderRouter.js";
 
 // Admin import
 import productRouter from "./routers/Admin/ProductRouter.js";
@@ -23,6 +24,7 @@ app.use(cookieParser());
 //User Router
 app.use("/API/V1/User", userAuthRouter);
 app.use("/API/V1/Cart", cardRouter);
+app.use("/API/V1/Order", orderRouter);
 
 //Admin Router
 app.use("/API/V1/Admin", productRouter);

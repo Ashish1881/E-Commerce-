@@ -15,10 +15,12 @@ const paymentSchema = new mongoose.Schema(
       required: true,
     },
     status: {
+      type: String,
       enum: ["SUCCESS", "FAILED"],
+      required: true,
     },
   },
-  { timestamps },
+  { timestamps: true },
 );
 
 const Payment = mongoose.model("Payment", paymentSchema);
